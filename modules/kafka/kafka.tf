@@ -54,15 +54,15 @@ resource "signalfx_detector" "kafka_offline_partitions" {
   }
 }
 
-resource "signalfx_detector" "kafka_consumergroup_lag" {
+resource "signalfx_detector" "kafka_consumer_group_lag" {
   name         = "${var.sfx_prefix} Kafka - Consumer Lag > 100 for 1m"
   description  = "Alerts when a consumergroup is lagging behind the latest offset by a 100"
   program_text = <<-EOF
-    A = data('kafka_consumergroup_lag').sum(by=['host', 'topic', 'partition', 'consumergroup']).publish(label='A')
-    detect(when(A > threshold(100), lasting='1m')).publish('consumergroup is lagging for this partition')
+    A = data('kafka_consumer_group_lag').sum(by=['topic', 'partition', 'group']).publish(label='A')
+    detect(when(A > threshold(100), lasting='1m')).publish('consumer group is lagging for this partition')
   EOF
   rule {
-    detect_label       = "consumergroup is lagging for this partition"
+    detect_label       = "consumer group is lagging for this partition"
     severity           = "Critical"
     parameterized_body = var.message_body
   }

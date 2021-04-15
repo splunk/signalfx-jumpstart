@@ -8,7 +8,7 @@ resource "signalfx_list_chart" "kafka_partition_offset_chart" {
   description = "Latest offset of a topic from a broker's POV"
 
   program_text = <<-EOF
-        A = data('kafka_topic_partition_current_offset').publish(label='Current Offset')
+        A = data('kafka.partition.current_offset').publish(label='Current Offset')
         EOF
 
   sort_by = "-value"
@@ -66,7 +66,7 @@ resource "signalfx_list_chart" "kafka_consumer_group_offset_chart" {
   description = "Latest offset of the consumer group"
 
   program_text = <<-EOF
-        A = data('kafka_consumergroup_current_offset').publish(label='Current offset(consumer group)')
+        A = data('kafka.consumer_group.offset').publish(label='Current offset(consumer group)')
         EOF
 
   sort_by = "-value"     
@@ -123,11 +123,11 @@ resource "signalfx_list_chart" "kafka_consumer_group_offset_chart" {
 }
 
 resource "signalfx_list_chart" "kafka_consumer_lag_list" {
-  name = "Consumer Group Current Offset"
+  name = "Consumer Group Lag"
   description = "How far is the consumer group behind the broker. If this is much greater than 0, it would indicate that consumption has either stopped or is not scaled enough"
 
   program_text = <<-EOF
-        A = data('kafka_consumergroup_lag').publish(label='Consumer Group Lag')
+        A = data('kafka.consumer_group.lag').publish(label='Consumer Group Lag')
         EOF
 
   sort_by = "-value"      
@@ -188,7 +188,7 @@ resource "signalfx_time_chart" "kafka_consumer_lag_line" {
   description = "How far is the consumer group behind the broker. If this is much greater than 0, it would indicate that consumption has either stopped or is not scaled enough"
 
   program_text = <<-EOF
-        A = data('kafka_consumergroup_lag').publish(label='Consumer Group Lag')
+        A = data('kafka.consumer_group.lag').publish(label='Consumer Group Lag')
         EOF
 
   plot_type = "LineChart"      

@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     signalfx = {
-      source = "splunk-terraform/signalfx"
+      source = "terraform-providers/signalfx"
     }
   }
   required_version = ">= 0.13"
